@@ -1,0 +1,92 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+        "url": "data/cases_state_cleaned.csv"
+    },
+    "height": 80,
+    "width": 600,
+    "title": "Daily Number of New Covid-19 Cases",
+    "config": {
+        "view": {
+            "strokeWidth": 0,
+            "step": 15
+        },
+        "axis": {
+            "domain": false
+        },
+        "background": "white",
+        "mark": {
+            "stroke": "darkgrey"
+        },
+        "title": {
+            "color": "black",
+            "fontSize": 20
+        }
+    },
+    "params": [{
+        "name": "State_selection",
+        "bind": {
+          "input": "select",
+          "options": [
+            "All", "Johor", "Kedah",
+            "Kelantan", "Melaka",
+            "Negeri Sembilan", "Pahang",
+            "Penang", "Perak", "Perlis",
+            "Sabah", "Sarawak", "Selangor", 
+            "Terengganu", "Federal Territory of Kuala Lumpur", 
+            "Federal Territory of Labuan", "Federal Territory of Putrajaya"
+          ],
+          "labels": [
+            "All", "Johor", "Kedah",
+            "Kelantan", "Melaka",
+            "Negeri Sembilan", "Pahang",
+            "Penang", "Perak", "Perlis",
+            "Sabah", "Sarawak", "Selangor", 
+            "Terengganu", "Kuala Lumpur", 
+            "Labuan", "Putrajaya"
+          ],
+          "name": "Choose a State: "
+        },
+        "value": "All"
+        }
+    ],
+    "transform": [{
+        "filter": "if(State_selection == 'All', datum.State == 'All', datum.State == State_selection)"
+    }],
+    "mark": "rect",
+    "encoding": {
+        "x": {
+            "field": "Date1",
+            "timeUnit": "date",
+            "type": "ordinal",
+            "title": "Day",
+            "axis": {
+                "labelAngle": 0,
+                "format": "%e"
+            }
+        },
+        "y": {
+            "field": "Date1",
+            "timeUnit": "month",
+            "type": "ordinal",
+            "title": "Month"
+        },
+        "color": {
+            "field": "Total Cases",
+            "aggregate": "max",
+            "type": "quantitative",
+            "legend": {
+                "title": null
+            },
+            "scale": {
+                "range": [
+                    "lightgrey", "red" 
+                ]
+            }
+        },
+        "tooltip": [
+            {"field": "Date", "type":"ordinal"},
+            {"field": "Total Cases"}
+        ]
+    }
+}
